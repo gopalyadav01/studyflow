@@ -34,6 +34,16 @@ const userSchema = new mongoose.Schema(
     darkMode: {
       type: Boolean,
       default: false
+    },
+
+    resetPasswordOtp: {
+      type: String,
+      default: null
+    },
+
+    resetPasswordExpires: {
+      type: Date,
+      default: null
     }
   },
   {

@@ -30,6 +30,34 @@ function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   // ---------------------------------------
+  // DYNAMIC TIME-BASED GREETING
+  // ---------------------------------------
+
+  const getTimeGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) {
+      return "Good Morning";
+    }
+    if (hour >= 12 && hour < 17) {
+      return "Good Afternoon";
+    }
+    if (hour >= 17 && hour < 21) {
+      return "Good Evening";
+    }
+    return "Good Night";
+  };
+
+  const [greeting, setGreeting] = useState(getTimeGreeting);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setGreeting(getTimeGreeting());
+    }, 60000); // Check every minute
+
+    return () => clearInterval(timer);
+  }, []);
+
+  // ---------------------------------------
   // LOAD DASHBOARD DATA
   // ---------------------------------------
 
@@ -289,7 +317,7 @@ function Dashboard() {
           </div>
 
           <h1>
-            Good Morning,{" "}
+            {greeting},{" "}
             {user?.name || "Student"} 👋
           </h1>
 

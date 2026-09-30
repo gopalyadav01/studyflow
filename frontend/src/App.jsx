@@ -18,6 +18,7 @@ import Settings from "./components/Settings";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Landing from "./pages/Landing";
 
 import { apiRequest } from "./api/api";
 
@@ -25,9 +26,15 @@ import { apiRequest } from "./api/api";
 function AppContent() {
   const location = useLocation();
 
+  const hasToken = Boolean(localStorage.getItem("token"));
+  const isLandingView =
+    location.pathname === "/landing" ||
+    (!hasToken && location.pathname === "/");
+
   const isAuthPage =
     location.pathname === "/login" ||
-    location.pathname === "/register";
+    location.pathname === "/register" ||
+    isLandingView;
 
 
   // ---------------------------------------
@@ -135,8 +142,18 @@ function AppContent() {
         />
 
         <Route
-          path="/"
+          path="/landing"
+          element={<Landing />}
+        />
+
+        <Route
+          path="/dashboard"
           element={<Dashboard />}
+        />
+
+        <Route
+          path="/"
+          element={hasToken ? <Dashboard /> : <Landing />}
         />
 
         <Route
